@@ -1,22 +1,33 @@
-const router = require("express").Router()
+const express = require("express")
+const router = express.Router()
 
+const Product = require("../models/Product")
 
-router.get("/", async (req,res)=>{
-    const items = await Inventory.find()
-    res.json(items)
-})
+router.get("/",async(req,res)=>{
 
+const products = await Product.find()
 
-router.post("/", async (req,res)=>{
-    const newItem = new Inventory(req.body)
-    const savedItem = await newItem.save()
-    res.json(newItem)
+res.json(products)
 
 })
 
-router.delete("/:id", async (req,res)=>{
-    await Inventory.findByIdAndDelete(req.params.id)
-    res.json("Deleted")
+router.post("/",async(req,res)=>{
+
+const product = new Product(req.body)
+
+await product.save()
+
+res.json(product)
+
+})
+
+router.delete("/:id",async(req,res)=>{
+
+await Product.findByIdAndDelete(req.params.id)
+
+res.json({message:"Deleted"})
+
 })
 
 module.exports = router
+

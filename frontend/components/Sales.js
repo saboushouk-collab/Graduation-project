@@ -1,14 +1,33 @@
-let sales = JSON.parse(localStorage.getItem("sales")) || []
+async function loadSales(){
 
-function addSale(){
+const res = await fetch("http://localhost:5001/api/sales")
 
-let product = document.getElementById("product").value
-let price = document.getElementById("price").value
+const data = await res.json()
 
-sales.push({product,price})
-
-localStorage.setItem("sales",JSON.stringify(sales))
-
-alert("Sale added")
+console.log(data)
 
 }
+
+loadSales()
+
+async function addSale(){
+
+let product=document.getElementById("product").value
+let price=document.getElementById("price").value
+
+await fetch("http://localhost:5001/api/sales",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({product,price})
+
+})
+
+loadSales()
+
+}
+

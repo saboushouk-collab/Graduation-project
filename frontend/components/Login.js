@@ -12,3 +12,4 @@ alert("Wrong login")
 
 }
 
+localStorage.setItem("login","true")

@@ -1,19 +1,25 @@
-const router = require("express").Router()
+const express = require("express")
+const router = express.Router()
 
-router.get("/", async (req,res)=>{
-    const sales = await Sale.find()
-    res.json(sales)
+const Sale = require("../models/Sale")
+
+router.get("/",async(req,res)=>{
+
+const sales = await Sale.find()
+
+res.json(sales)
+
 })
 
-router.post("/", async (req,res)=>{
-    const newSale = new Sale(req.body)
-    const savedSale = await newSale.save()
-    res.json(newSale)
-})
+router.post("/",async(req,res)=>{
 
-router.delete("/:id", async (req,res)=>{
-    await Sale.findByIdAndDelete(req.params.id)
-    res.json("Deleted")
+const sale = new Sale(req.body)
+
+await sale.save()
+
+res.json(sale)
+
 })
 
 module.exports = router
+

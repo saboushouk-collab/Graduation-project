@@ -6,3 +6,4 @@ document.getElementById("reportsSection").innerHTML=`
 <p>Total Sales: ${sales.length}</p>
 `
 }
+

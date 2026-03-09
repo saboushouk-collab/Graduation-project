@@ -1,30 +1,27 @@
-let products = JSON.parse(localStorage.getItem("products")) || []
-let sales = JSON.parse(localStorage.getItem("sales")) || []
+async function loadDashboard(){
 
-document.getElementById("products").innerText = products.length
-document.getElementById("sales").innerText = sales.length
+const inv = await fetch("http://localhost:5001/api/inventory")
+const sales = await fetch("http://localhost:5001/api/sales")
 
-let total = 0
+const inventory = await inv.json()
+const salesData = await sales.json()
 
-sales.forEach(s=>{
-total += Number(s.price)
-})
+document.getElementById("products").innerText = inventory.length
+document.getElementById("sales").innerText = salesData.length
 
-document.getElementById("money").innerText = "$"+total
-
-const ctx = document.getElementById("chart")
-
-new Chart(ctx,{
-
-type:"bar",
-
-data:{
-labels:["Products","Sales"],
-datasets:[{
-label:"System Data",
-data:[products.length,sales.length]
-}]
 }
 
-})
+loadDashboard()
 
+const ctx=document.getElementById("salesChart")
+
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:["Mon","Tue","Wed","Thu","Fri"],
+datasets:[{
+label:"Sales",
+data:[200,400,300,500,600]
+}]
+}
+})

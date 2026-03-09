@@ -1,65 +1,35 @@
-let products = JSON.parse(localStorage.getItem("products")) || []
+async function loadInventory(){
 
-const table = document.getElementById("table")
+const res = await fetch("http://localhost:5001/api/inventory")
 
-function render(list=products){
+const data = await res.json()
 
-table.innerHTML = `
-<tr>
-<th>Name</th>
-<th>Price</th>
-<th>Delete</th>
-</tr>
-`
+console.log(data)
 
-list.forEach((p,i)=>{
+}
+async function addProduct(){
 
-table.innerHTML += `
-<tr>
-<td>${p.name}</td>
-<td>${p.price}</td>
-<td><button onclick="remove(${i})">Delete</button></td>
-</tr>
-`
+let name=document.getElementById("name").value
+let price=document.getElementById("price").value
+let quantity=document.getElementById("quantity").value
+
+await fetch("http://localhost:5001/api/inventory",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({name,price,quantity})
 
 })
 
-}
-
-function addProduct(){
-
-let name = document.getElementById("name").value
-let price = document.getElementById("price").value
-
-products.push({name,price})
-
-localStorage.setItem("products",JSON.stringify(products))
-
-render()
+loadInventory()
 
 }
 
-function remove(i){
 
-products.splice(i,1)
-
-localStorage.setItem("products",JSON.stringify(products))
-
-render()
-
-}
-
-function search(){
-
-let value = document.getElementById("search").value.toLowerCase()
-
-let filtered = products.filter(p=>p.name.toLowerCase().includes(value))
-
-render(filtered)
-
-}
-
-render()
 
 
 
